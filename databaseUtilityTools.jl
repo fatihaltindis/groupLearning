@@ -35,7 +35,9 @@ function select_subjects(dbName             :: String;
                          selection_rule     :: Symbol = :none,
                          threshold          :: Float64 = 0.7,
                          random_state       :: Union{Integer, Nothing} = nothing,
-                         turn               :: Symbol = :local)
+                         turn               :: Symbol = :local,
+                         filepath           :: Union{Nothing, String} = nothing)
+
     isnothing(random_state) ? random_state = 1 : nothing;
     # Overruling for sorted selection
     if ((selection_rule == :sort) || (selection_rule == :sort_r)) && (n_of_subject == 0)
@@ -48,15 +50,20 @@ function select_subjects(dbName             :: String;
         (threshold >= 1.0) || (threshold <= 0.0) ? error("Threshold must be between 0-1 !!!") : nothing;
     end
 
-    # Create path name for locating the databases
-    modality = dbModalities[dbName];
-    turn == :gricad ? database_path = "/bettik/PROJECTS/pr-bci/COMMON/" : 
-            database_path = joinpath(@__DIR__, "DataBases");
+    # Define filepath for locating the databases
+    if isnothing(filepath)
+        modality = dbModalities[dbName];
+        turn == :gricad ? database_path = "/bettik/PROJECTS/pr-bci/COMMON/" : 
+                database_path = joinpath(@__DIR__, "DataBases", modality);
+    else
+        database_path = filepath;
+    end
+        
 
     # Variable to keep selected files
     selected_files = [];
     selected_subjects = [];
-    dbDir = joinpath(database_path, modality, dbName);
+    dbDir = joinpath(database_path, dbName);
     files = loadNYdb(dbDir);
 
     ## Create list of subject numbers of given database

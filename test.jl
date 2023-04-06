@@ -31,16 +31,20 @@ det_normalization = false;	# normalize determinants of cov mats
 ch_union = nothing;         # Union channel space for Dimensionality Transcending
 dt = false;
 
+filepath = "G:\\Mon Drive\\PhD\\Codes\\julia_codes\\group-learning\\Group-Learning-BCI\\ERP Analysis\\DataBases\\P300"
+
 selected_files, subject_list = select_subjects(dbList; n_of_subject = n_of_subject,
-                                               selection_rule = selection_rule, turn = :none);
+                                               selection_rule = selection_rule, turn = :none,
+                                               filepath = filepath);
 
 
 # TEST CODE for chekcing if there is a leakage between train and test splits
-include("main_tools.jl")
+# include("main_tools.jl")
 temp_file = selected_files[1];
 o=readNY(temp_file;
          bandpass=bandpass, upperLimit=artefact_rejection);
 TAindex = findfirst(isequal("Target"), o.clabels);
+
 for split_ratio in 10:10:90
     for n_splits in (1:10)
         train_splits_no, test_splits_no, y_train, y_test = get_splits(o.mark; 

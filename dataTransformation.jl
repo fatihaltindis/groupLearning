@@ -7,6 +7,7 @@
 # return_type sets this option
 # :index for raw_data trial index (e.g. trial starts at 2047, or 5247 ....)
 # and :trial_no trial returns trial numbers (e.g. 1st trial, 25th trial ...)
+import Random.shuffle
 function get_splits(trial_idx               :: Vector{Vector{Int}};
                     c_labels                :: Vector{} = [],
                     n_splits                :: Union{Int, Nothing} = nothing,
