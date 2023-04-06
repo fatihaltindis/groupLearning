@@ -1,8 +1,9 @@
-# Unit databaseUtilityTools.jl, part of GroupLearning Package for julia
+# Unit databaseUtilityTools.jl, part of groupLearning Package for julia
 #
 # MIT License 
 # Copyright (c) - 2023
 # Fatih Altindis and Marco Congedo
+# Abdullah Gul University, Kayseri
 # GIPSA-lab, CNRS, University Grenoble Alpes
 # 
 # DESCRIPTION

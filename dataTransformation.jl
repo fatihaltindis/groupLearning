@@ -1,5 +1,12 @@
+# Unit dataTransformation.jl, part of groupLearning Package for julia
+#
+# MIT License 
+# Copyright (c) - 2023
+# Fatih Altindis and Marco Congedo
+# Abdullah Gul University, Kayseri
+# GIPSA-lab, CNRS, University Grenoble Alpes
 
-## SPLIT DATA INTO TRAIN AND TEST SPLITS ##
+# SPLIT DATA INTO TRAIN AND TEST SPLITS
 # This function takes marker data from NY format data
 # It returns to variables: train splits and test splits
 # Splits include the time series index number of the beginning 
