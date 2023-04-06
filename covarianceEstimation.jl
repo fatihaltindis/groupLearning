@@ -8,12 +8,12 @@
 
 # Estimate super trial covariance matrices for train and test splits
 # For ERP
-function estimate_cov_mat(trials            :: Vector{Matrix{Float64}},
-                          train_splits      :: Vector{Vector{Vector{Int64}}},
-                          test_splits       :: Vector{Vector{Vector{Int64}}},
-                          prototypes        :: Vector{Matrix{Float64}};
-                          det_normalization :: Bool = false,
-                          estimator         :: Symbol = :lw)
+function estimateCov(trials            :: Vector{Matrix{Float64}},
+                     train_splits      :: Vector{Vector{Vector{Int64}}},
+                     test_splits       :: Vector{Vector{Vector{Int64}}},
+                     prototypes        :: Vector{Matrix{Float64}};
+                     det_normalization :: Bool = false,
+                     estimator         :: Symbol = :lw)
 
     train_covs = Vector{Hermitian{}}[]
     test_covs = Vector{Hermitian{}}[]
@@ -49,13 +49,13 @@ end
 
 # Estimate super trial covariance matrices for all the given trials
 # For ERP
-function estimate_cov_mat(trials            :: Vector{Matrix{Float64}},
-                          prototypes        :: Vector{Matrix{Float64}};
-                          det_normalization :: Bool = false,
-                          estimator         :: Symbol = :lw)
+function estimateCov(trials            :: Vector{Matrix{Float64}},
+                     prototype         :: Vector{Matrix{Float64}};
+                     det_normalization :: Bool = false,
+                     estimator         :: Symbol = :lw)
 
     covs = Vector{Hermitian{}}[]
-    for prt in prototypes
+    for prt in prototype
         if estimator == :lw
             push!(covs, ℍVector([ℍ(cov(LinearShrinkage(ConstantCorrelation()), [X prt])) 
                 for X ∈ trials]));
@@ -80,11 +80,11 @@ end
 
 # Estimate covaraince matrices for train and test splits
 # For MI data
-function estimate_cov_mat(trials            :: Vector{Matrix{Float64}},
-                          train_splits      :: Vector{Vector{Vector{Int64}}},
-                          test_splits       :: Vector{Vector{Vector{Int64}}};
-                          estimator         :: Symbol = :lw,
-                          det_normalization :: Bool = false)
+function estimateCov(trials            :: Vector{Matrix{Float64}},
+                     train_splits      :: Vector{Vector{Vector{Int64}}},
+                     test_splits       :: Vector{Vector{Vector{Int64}}};
+                     estimator         :: Symbol = :lw,
+                     det_normalization :: Bool = false)
 
     train_covs = Vector{Hermitian{}}[]
     test_covs = Vector{Hermitian{}}[]
@@ -123,9 +123,9 @@ end
 
 # Estimate covariance matrices for all the given trials
 # For MI data
-function estimate_cov_mat(trials            :: Vector{Matrix{Float64}};
-                          estimator         :: Symbol = :lw,
-                          det_normalization :: Bool = false)
+function estimateCov(trials            :: Vector{Matrix{Float64}};
+                     estimator         :: Symbol = :lw,
+                     det_normalization :: Bool = false)
 
     covs = Vector{Hermitian{}}[]
     if estimator == :lw
