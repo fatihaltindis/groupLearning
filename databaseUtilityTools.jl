@@ -31,7 +31,7 @@ include("dbInfo.jl");
 import StatsBase.sample
 import Random.MersenneTwister
 
-function select_subjects(dbName             :: String;
+function selectSubjects(dbName             :: String;
                          n_of_subject       :: Integer = 0,
                          selection_rule     :: Symbol = :none,
                          threshold          :: Float64 = 0.7,

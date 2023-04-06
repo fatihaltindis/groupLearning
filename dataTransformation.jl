@@ -15,7 +15,7 @@
 # :index for raw_data trial index (e.g. trial starts at 2047, or 5247 ....)
 # and :trial_no trial returns trial numbers (e.g. 1st trial, 25th trial ...)
 import Random.shuffle
-function get_splits(trial_idx               :: Vector{Vector{Int}};
+function getSplits(trial_idx               :: Vector{Vector{Int}};
                     c_labels                :: Vector{} = [],
                     n_splits                :: Union{Int, Nothing} = nothing,
                     split_ratio             :: Union{Nothing,Real} = nothing,
@@ -85,4 +85,17 @@ function get_splits(trial_idx               :: Vector{Vector{Int}};
     else
         ArgumentError("Return type must be 'index' or 'trial_no' !!!")
     end
+end
+
+function swapDims(train_splits             :: Vector{Vector{Matrix{Float64}}},
+                  test_splits              :: Vector{Vector{Matrix{Float64}}})
+
+    train = Vector{Vector{Matrix{Float64}}}(undef,length(train_splits[1]))
+    test = Vector{Vector{Matrix{Float64}}}(undef,length(train_splits[1]))
+
+    for sp in eachindex(train)   
+        train[sp] = [Z[sp] for (d,Z) ∈ enumerate(train_splits)];
+        test[sp] = [Z[sp] for (d,Z) ∈ enumerate(test_splits)];
+    end
+    return train, test
 end
