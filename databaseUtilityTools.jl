@@ -86,7 +86,7 @@ function select_subjects(dbName             :: String;
         selected_files = [files[i] for i∈selectedIdx];
     elseif selection_rule == :sort
         cvResults = "$(dbName)_sw_learning.txt";
-        CVFileDir = joinpath(@__DIR__, cvResults);
+        CVFileDir = joinpath(dbDir, cvResults);
         cvScores = readdlm(CVFileDir, Float64);
 
         subject_acc = cvScores[:,3];
@@ -96,7 +96,7 @@ function select_subjects(dbName             :: String;
         selected_files = [files[i] for i ∈ ksort[1:temp_n_sub]];
     elseif selection_rule == :sort_r
         cvResults = "$(dbName)_sw_learning.txt";
-        CVFileDir = joinpath(@__DIR__, cvResults);
+        CVFileDir = joinpath(dbDir, cvResults);
         cvScores = readdlm(CVFileDir, Float64);
 
         subject_acc = cvScores[:,3];
@@ -106,7 +106,7 @@ function select_subjects(dbName             :: String;
         selected_files = [files[i] for i ∈ ksort[1:temp_n_sub]];
     elseif selection_rule == :thre
         cvResults = "$(dbName)_sw_learning.txt";
-        CVFileDir = joinpath(@__DIR__, cvResults);
+        CVFileDir = joinpath(dbDir, cvResults);
         cvScores = readdlm(CVFileDir, Float64);
 
         subject_acc = cvScores[:,3];
@@ -115,7 +115,7 @@ function select_subjects(dbName             :: String;
         selected_subjects = repeat(dummy_subject_numbers,inner=dbSessionCount[dbName])[selectedIdx];
     elseif selection_rule == :thre_r
         cvResults = "$(dbName)_sw_learning.txt";
-        CVFileDir = joinpath(@__DIR__, cvResults);
+        CVFileDir = joinpath(dbDir, cvResults);
         cvScores = readdlm(CVFileDir, Float64);
 
         subject_acc = cvScores[:,3];
