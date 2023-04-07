@@ -6,6 +6,8 @@
 # Abdullah Gul University, Kayseri
 # GIPSA-lab, CNRS, University Grenoble Alpes
 
+# This function is for creating prototype trials from each train split,
+# separately. 
 
 function createPrototype(raw_eeg         :: Matrix{Float64}, 
                          window_length   :: Int, 
@@ -14,7 +16,7 @@ function createPrototype(raw_eeg         :: Matrix{Float64},
                          overlapping     :: Bool = true,
                          weights         :: Union{Symbol, Nothing} = nothing,
                          PCA_dim         :: Union{Int, Nothing} = nothing,
-                         verbose         :: Bool = true)
+                         verbose         :: Bool = false)
 
     ch_ = minimum(size(raw_eeg));
     if !isnothing(PCA_dim)
@@ -35,6 +37,7 @@ function createPrototype(raw_eeg         :: Matrix{Float64},
     return prototype    
 end
 
+# This function is for creating prototype from all trials
 function createPrototype(raw_eeg         :: Matrix{Float64}, 
                          window_length   :: Int, 
                          trials          :: Vector{Vector{Int64}},

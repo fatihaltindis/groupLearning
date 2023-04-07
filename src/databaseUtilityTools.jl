@@ -32,12 +32,12 @@ import StatsBase.sample
 import Random.MersenneTwister
 
 function selectSubjects(dbName             :: String;
-                         n_of_subject       :: Integer = 0,
-                         selection_rule     :: Symbol = :none,
-                         threshold          :: Float64 = 0.7,
-                         random_state       :: Union{Integer, Nothing} = nothing,
-                         turn               :: Symbol = :local,
-                         filepath           :: Union{Nothing, String} = nothing)
+                        n_of_subject       :: Integer = 0,
+                        selection_rule     :: Symbol = :none,
+                        threshold          :: Float64 = 0.7,
+                        random_state       :: Union{Integer, Nothing} = nothing,
+                        turn               :: Symbol = :local,
+                        filepath           :: Union{Nothing, String} = nothing)
 
     isnothing(random_state) ? random_state = 1 : nothing;
     # Overruling for sorted selection

@@ -9,7 +9,7 @@ push!(LOAD_PATH, joinpath(@__DIR__, "Modules"))
 using 	EEGio, System, FileSystem, EEGpreprocessing, EEGprocessing, ERPs
 
 # include("main_tools.jl")
-include("databaseUtilityTools.jl")
+include(".\\src\\databaseUtilityTools.jl")
 
 # Selected Databases
 dbList = "bi2014b";	        # give a list of datasets with their folder name
@@ -45,7 +45,7 @@ o=readNY(temp_file;
          bandpass=bandpass, upperLimit=artefact_rejection);
 TAindex = findfirst(isequal("Target"), o.clabels);
 
-include("dataTransformation.jl")
+include(".\\src\\dataTransformation.jl")
 
 for split_ratio in 10:10:90
     for n_splits in (1:10)
@@ -97,10 +97,10 @@ for n_splits in (1:10)
     display(parity_check)
 end
 
-
-include("covarianceEstimation.jl")
-include("erpTools.jl")
-include("tangentSpaceVectors.jl")
+include(".\\src\\dataTransformation.jl")
+include(".\\src\\covarianceEstimation.jl")
+include(".\\src\\erpTools.jl")
+include(".\\src\\tangentSpaceVectors.jl")
 all_clabels = [] 	# Class labels of all subjects
 train_vecs = Vector{Matrix{Float64}}[]
 test_vecs = Vector{Matrix{Float64}}[]
@@ -125,7 +125,8 @@ for (n,temp_file) ∈ enumerate(selected_files)
     Y = createPrototype(o.X, o.wl, train_splits, TAindex;
                         overlapping = overlapping,
                         weights = ERP_weight,
-                        PCA_dim = PCA_dim);
+                        PCA_dim = PCA_dim,
+                        verbose = false);
     # Covariance Estimation
     train_covs, test_covs = estimateCov(o.trials, train_splits_no, test_splits_no, Y;
                             det_normalization = det_normalization, estimator = :lw);
@@ -187,6 +188,8 @@ for db in dbList
     end
     println("Number of selected files $c")
 end
+
+
 
 
 

@@ -16,11 +16,11 @@
 # and :trial_no trial returns trial numbers (e.g. 1st trial, 25th trial ...)
 import Random.shuffle
 function getSplits(trial_idx               :: Vector{Vector{Int}};
-                    c_labels                :: Vector{} = [],
-                    n_splits                :: Union{Int, Nothing} = nothing,
-                    split_ratio             :: Union{Nothing,Real} = nothing,
-                    return_type             :: Symbol = :index,
-                    random_state            :: Union{Int, Nothing} = nothing)
+                   c_labels                :: Vector{} = [],
+                   n_splits                :: Union{Int, Nothing} = nothing,
+                   split_ratio             :: Union{Nothing,Real} = nothing,
+                   return_type             :: Symbol = :index,
+                   random_state            :: Union{Int, Nothing} = nothing)
     # Check if random_state is activated
     isnothing(random_state) ? random_state = 1 : nothing;
     
