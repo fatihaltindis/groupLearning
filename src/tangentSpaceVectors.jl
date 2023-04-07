@@ -18,7 +18,7 @@
 function tangentVectors(train_covs         :: Vector{Vector{Hermitian}},
                         test_covs          :: Vector{Vector{Hermitian}},
                         vecRange           :: Union{Nothing,UnitRange},
-                        paradigm           :: Symbol;
+                        modality           :: Symbol;
                         metric             :: Metric = Fisher,
                         w                  :: Union{Vector{Vector},Nothing} = nothing,
                         transpose          :: Bool = true,
@@ -32,10 +32,10 @@ function tangentVectors(train_covs         :: Vector{Vector{Hermitian}},
     train_ts_vecs, test_ts_vecs = Matrix{Float64}[], Matrix{Float64}[]
     if !dt
         for i in eachindex(train_covs)
-            if paradigm == :ERP
+            if modality == :ERP
                 push!(train_ts_vecs, tsMap(metric, train_covs[i]; w=w, transpose=transpose, vecRange=vecRange)[1])
                 push!(test_ts_vecs, tsMap(metric, test_covs[i]; w=w, transpose=transpose, vecRange=vecRange)[1])
-            elseif paradigm == :MI
+            elseif modality == :MI
                 push!(train_ts_vecs, tsMap(metric, train_covs[i]; w=w, transpose=transpose, ⏩=false)[1])
                 push!(test_ts_vecs, tsMap(metric, test_covs[i]; w=w, transpose=transpose, ⏩=false)[1])
             end
@@ -44,14 +44,14 @@ function tangentVectors(train_covs         :: Vector{Vector{Hermitian}},
         isnothing(ch_union) ? throw(ErrorException("Union channel space cannot be empty!!!")) : nothing;
         @info("Dimensionality Transcending is active!!!")
         for i in eachindex(train_covs)
-            if paradigm == :ERP
+            if modality == :ERP
                 # Dimensionality Transcending on train data
                 temp_ts_mats = dt_tsMap(metric, train_covs[i]; w=w, transpose=transpose)[1];
                 push!(train_ts_vecs, dt_promotion(temp_ts_mats, ch_union, ch_sub; PCA_dim = PCA_dim));
                 # Dimensionality Transcending on train data
                 temp_ts_mats = dt_tsMap(metric, test_covs[i]; w=w, transpose=transpose)[1];
                 push!(test_ts_vecs, dt_promotion(temp_ts_mats, ch_union, ch_sub; PCA_dim = PCA_dim));
-            elseif paradigm == :MI
+            elseif modality == :MI
                 @info("MI version will be added.")
             end
         end
@@ -60,7 +60,8 @@ function tangentVectors(train_covs         :: Vector{Vector{Hermitian}},
 end
 
 function tangentVectors(train_covs         :: Vector{Vector{Hermitian}},
-                        vecRange           :: UnitRange;
+                        vecRange           :: UnitRange,
+                        modality           :: Symbol;
                         metric             :: Metric = Fisher,
                         w                  :: Union{Vector{Vector},Nothing} = nothing,
                         transpose          :: Bool = true,
@@ -74,9 +75,9 @@ function tangentVectors(train_covs         :: Vector{Vector{Hermitian}},
     train_ts_vecs = Matrix{Float64}[]
     if !dt
         for i in eachindex(train_covs)
-            if paradigm == :ERP
+            if modality == :ERP
                 push!(train_ts_vecs, tsMap(metric, train_covs[i]; w=w, transpose=transpose, vecRange=vecRange)[1])
-            elseif paradigm == :MI
+            elseif modality == :MI
                 push!(train_ts_vecs, tsMap(metric, train_covs[i]; w=w, transpose=transpose, ⏩=false)[1])
             end
         end
@@ -84,9 +85,13 @@ function tangentVectors(train_covs         :: Vector{Vector{Hermitian}},
         isnothing(ch_union) ? throw(ErrorException("Union channel space cannot be empty!!!")) : nothing;
         @info("Dimensionality Transcending is active!!!")
         for i in eachindex(train_covs)
-            # Dimensionality Transcending on train data
-            temp_ts_mats = dt_tsMap(metric, train_covs[i]; w=w, transpose=transpose)[1];
-            push!(train_ts_vecs, dt_promotion(temp_ts_mats, ch_union, ch_sub; PCA_dim = PCA_dim));
+            if modality == :ERP
+                # Dimensionality Transcending on train data
+                temp_ts_mats = dt_tsMap(metric, train_covs[i]; w=w, transpose=transpose)[1];
+                push!(train_ts_vecs, dt_promotion(temp_ts_mats, ch_union, ch_sub; PCA_dim = PCA_dim));
+            elseif modality == :MI
+                @info("MI version will be added.")
+            end
         end
     end
     return train_ts_vecs

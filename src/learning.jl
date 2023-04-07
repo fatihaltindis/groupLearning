@@ -7,6 +7,7 @@
 # Abdullah Gul University, Kayseri
 # GIPSA-lab, CNRS, University Grenoble Alpes
 
+@sk_import svm: LinearSVC
 
 function swTraining(train_splits           :: Vector{Vector{Matrix{Float64}}}, 
                     test_splits            :: Vector{Vector{Matrix{Float64}}},
