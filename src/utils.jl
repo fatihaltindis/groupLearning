@@ -141,6 +141,7 @@ function sortU!(𝐔       :: Vector{Matrix{Float64}},
     return nothing
 end
 
+# reverse_selection is ineffective for the moment.
 function estimateB(𝐔                       :: Vector{Matrix{Float64}},
                    𝐰𝐡                      :: Vector{Matrix{Float64}};
                    type                    :: Symbol = :smart,

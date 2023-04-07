@@ -59,7 +59,7 @@ function swTraining(train_splits           :: Vector{Vector{Matrix{Float64}}},
             end
         end
     end
-    return mean(accuracy, dims=1), std(accuracy, dims=1)
+    return vec(mean(accuracy, dims=1)), vec(std(accuracy, dims=1))
 end
 
 # This function is for group learning of all aligned domains
