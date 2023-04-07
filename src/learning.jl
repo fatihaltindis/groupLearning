@@ -6,7 +6,7 @@
 # Fatih Altindis and Marco Congedo
 # Abdullah Gul University, Kayseri
 # GIPSA-lab, CNRS, University Grenoble Alpes
-
+using ScikitLearn
 @sk_import svm: LinearSVC
 
 function swTraining(train_splits           :: Vector{Vector{Matrix{Float64}}}, 
