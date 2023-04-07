@@ -8,7 +8,7 @@
 
 # SPLIT DATA INTO TRAIN AND TEST SPLITS
 # This function takes marker data from NY format data
-# It returns to variables: train splits and test splits
+# It returns two variables: train splits and test splits
 # Splits include the time series index number of the beginning 
 # of each trial or trial no. 
 # return_type sets this option
