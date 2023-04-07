@@ -208,3 +208,16 @@ function alignFeatures(train_split          :: Vector{Matrix{Float64}},
 
     return aligned_train, aligned_test
 end
+
+function measureNonDiagonality(𝐔 :: AbstractArray,
+                               𝐓 :: AbstractArray)  
+    M = size(𝐔,1);
+    qn = Matrix{Float64}(0I,M,M);
+    for i = 1:M
+        for j = 1:i-1
+            qn[i,j] = nonDiagonality(𝐔[i]' * 𝐓[i] * 𝐓[j]' * 𝐔[j]);
+            qn[j,i] = qn[i,j];
+        end
+    end
+    return qn
+end
