@@ -22,7 +22,7 @@ function createPrototype(raw_eeg         :: Matrix{Float64},
     if !isnothing(PCA_dim)
         (ch_ < PCA_dim) ? throw(ArgumentError("PCA dimension cannot be bigger than number of channels!!!")) : 
             verbose && @info("PCA is enabled!") 
-            verbose && @info("$(PCA_dim) principal components will be kept out of $(ch_).") 
+            verbose && @info("$(PCA_dim) principal components will be retained out of $(ch_).") 
     end
 
     prototype = Matrix{Float64}[];
@@ -51,7 +51,7 @@ function createPrototype(raw_eeg         :: Matrix{Float64},
     if !isnothing(PCA_dim)
         (ch_ < PCA_dim) ? throw(ArgumentError("PCA dimension cannot be bigger than number of channels!!!")) : 
             verbose && @info("PCA is enabled!") 
-            verbose && @info("$(PCA_dim) principal components will be kept out of $(ch_).") 
+            verbose && @info("$(PCA_dim) principal components will be retained out of $(ch_).") 
     end
 
     prototype = Matrix{Float64}[]
