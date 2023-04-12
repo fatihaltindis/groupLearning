@@ -58,12 +58,14 @@ function whitenData(bootstraps             :: Vector{Matrix{Float64}};
             𝐓[m] = 𝐰𝐡[m]' * bootstraps[m]
             verbose && @info("Completed SVD >>> % $(100*(m/M))")
         end
+
     elseif type == :pca
         for m = 1:M
             𝐒[m] = svd(bootstraps[m], alg=LinearAlgebra.QRIteration())
             𝐓[m] = 𝐒[m].U[1:white_dim,1:white_dim] * diagm(
                 𝐒[m].S[1:white_dim]) * 𝐒[m].Vt[1:white_dim,:]
         end
+        
     elseif type == :smart
         temp_T = Vector{Matrix{Any}}(undef,M)
         𝐂 = Vector{Vector{Matrix{Any}}}(undef,M)
