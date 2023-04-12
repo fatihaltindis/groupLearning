@@ -129,4 +129,3 @@ function faTraining(train_splits           :: Vector{Matrix{Float64}},
 
     return accuracy
 end
-

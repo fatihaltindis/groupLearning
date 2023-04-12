@@ -39,7 +39,7 @@ Base.@kwdef mutable struct Parameters
     vec_norm                :: Bool = true
     whitening               :: Symbol = :smart
     white_dim               :: Integer = 16
-    sub_dim                 :: Vector{Integer} = [16]
+    sub_dim                 :: Vector{<:Integer} = [16]
     smart_subspace          :: Integer = 16
     n_of_boot               :: Integer = 100
     bootsize                :: Integer = 25
@@ -70,8 +70,8 @@ end
 # U matrices, whitening matrices (wh),
 # whitened matrices (T) and matrices
 Base.@kwdef mutable struct GLData
-    B                       :: Vector{Vector{Any}} = []
-    B_fast                  :: Vector{Vector{Any}} = []
+    B                       :: Vector{Vector{Matrix{Float64}}} = []
+    B_fast                  :: Vector{Vector{Matrix{Float64}}} = []
     U                       :: Vector{Vector{Matrix{Float64}}} = []
     U_fast                  :: Vector{Vector{Matrix{Float64}}} = []
     T                       :: Vector{Vector{Matrix{Float64}}} = []
