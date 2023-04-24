@@ -258,7 +258,7 @@ function trainSW(db_obj     :: Database,
     
     res_obj.sw_res = swTraining(ts_obj.train_vecs, ts_obj.test_vecs,
                                 ts_obj.train_labels, ts_obj.test_labels,
-                                classifier = param_obj.classifier)[1];
+                                classifier = param.classifier)[1];
     return nothing
 end
 
@@ -272,3 +272,7 @@ function saveResults(db_obj     :: Database,
     println("Save function will be added.")
 end
 
+function runPipe!(pipeline, obj_list)
+    map(x -> x(obj_list...), pipeline)
+    return nothing
+end
