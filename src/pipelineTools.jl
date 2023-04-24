@@ -276,3 +276,17 @@ function runPipe!(pipeline, obj_list)
     map(x -> x(obj_list...), pipeline)
     return nothing
 end
+
+function plotAcc(obj_list)
+    p = Plots.plot();
+    ksort = [];
+    available_res = Dict("SW" => obj_list[5].sw_res,
+                         "GL" => obj_list[5].gl_res,
+                         "FA" => obj_list[5].fa_res);
+    for r in available_res
+        isempty(ksort) ? ksort = sortperm(vec(r[2]), rev=true) : nothing;
+        isempty(r[2]) ? nothing : plot!(p, vec(r[2])[ksort], label=r[1]);
+    end
+    Plots.ylims!(p, (0.4, 1))
+    return p
+end

@@ -36,5 +36,5 @@ pipeline = [createTSVectors, trainSW, prepareGL, runGL, trainGL];
 
 runPipe!(pipeline, obj_list)
 
-map(x -> x(obj_list...), pipeline)
+plotAcc(obj_list)
 
