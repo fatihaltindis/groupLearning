@@ -290,4 +290,3 @@ function plotAcc(obj_list)
     Plots.ylims!(p, (0.4, 1))
     return p
 end
-

@@ -18,7 +18,7 @@ dbName = "bi2014a";
 
 PCA_dim = 8;
 random_state = 1;
-n_of_subject = 7;
+n_of_subject = 5;
 selection_rule = :none;
 threshold = 0.66;
 turn = :local;
@@ -31,10 +31,10 @@ paradigm = :ERP;
 
 obj_list = initiateObjects(dbName, filepath;
                            n_of_subject=n_of_subject, PCA_dim=PCA_dim, verbose=true);
+
 pipeline = [createTSVectors, trainSW, prepareGL, runGL, trainGL];
 
 runPipe!(pipeline, obj_list)
 
 plotAcc(obj_list)
-
 
