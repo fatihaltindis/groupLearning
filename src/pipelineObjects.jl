@@ -75,8 +75,11 @@ Base.@kwdef mutable struct GLData
     U                       :: Vector{Vector{Matrix{Float64}}} = []
     U_fast                  :: Vector{Vector{Matrix{Float64}}} = []
     T                       :: Vector{Vector{Matrix{Float64}}} = []
+    T_fast                  :: Vector{Vector{Matrix{Float64}}} = []
     S                       :: Vector{Vector{Any}} = []
+    S_fast                  :: Vector{Vector{Any}} = []
     wh                      :: Vector{Vector{Matrix{Float64}}} = []
+    wh_fast                 :: Vector{Vector{Matrix{Float64}}} = []
 end
 
 # Classification results of pipelines, GALIA iteration

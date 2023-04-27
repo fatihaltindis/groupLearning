@@ -101,8 +101,8 @@ function glTraining(train_splits           :: Vector{Vector{Matrix{Float64}}},
 end
 
 # This function is for fast alignment of a new subject (Leave-One-Out scenario)
-function faTraining(train_splits           :: Vector{Matrix{Float64}}, 
-                    test_splits            :: Vector{Matrix{Float64}},
+function faTraining(train_split           :: Vector{Matrix{Float64}}, 
+                    test_split            :: Vector{Matrix{Float64}},
                     train_labels           :: Vector{Vector{}},
                     test_labels            :: Vector{Vector{}},
                     test_sub_idx           :: Int;
@@ -111,18 +111,21 @@ function faTraining(train_splits           :: Vector{Matrix{Float64}},
 
     accuracy = Matrix{Float64}(undef, 1, 1)
     if classifier == :ENLR
-        model = fit(ENLR(), Matrix(hcat(train_splits...)'), vcat(train_labels...);
+        model = fit(ENLR(), Matrix(hcat(train_split...)'), vcat(train_labels...);
             verbose = false);
         accuracy = predictAcc(test_labels[1],
-            predict(model, Matrix(test_splits[1]'), :l; verbose = verbose))
+            predict(model, Matrix(test_split[1]'), :l; verbose = verbose))
 
     elseif classifier == :LinearSVC
-        train_s = deepcopy(train_labels);
-        deleteat!(train_s, test_sub_idx);
+        # train_l = deepcopy(train_labels);
+        # deleteat!(train_l, test_sub_idx);
+        # train_s = deepcopy(train_split);
+        # deleteat!(train_s, test_sub_idx);
+
         clf = LinearSVC(tol=1e-6, class_weight = "balanced", max_iter=5000, verbose = verbose);
-        ScikitLearn.fit!(clf, Matrix(hcat(train_splits...)'), vcat(train_s...));
-        accuracy = PosDefManifoldML.predictAcc(test_labels[1], 
-                   clf.predict(Matrix(test_splits[1]')))
+        ScikitLearn.fit!(clf, Matrix(hcat(train_s...)'), vcat(train_l...));
+        accuracy = PosDefManifoldML.predictAcc(test_labels[test_sub_idx], 
+                   clf.predict(Matrix(test_split[test_sub_idx]')))
     else
         throw(ErrorException("LinearSVC or ENLR classifier must be chosen!!!"))
     end

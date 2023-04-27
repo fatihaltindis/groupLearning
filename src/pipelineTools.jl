@@ -177,6 +177,8 @@ function prepareGL(db_obj     :: Database,
         push!(gl_obj.S, 𝐒)
         push!(gl_obj.wh, 𝐰𝐡)
     end
+    # normalize feature vectors if enabled
+    param.vec_mean ? normVecs!(ts_obj.train_vecs, ts_obj.test_vecs) : nothing;
     return nothing
 end
 
@@ -214,6 +216,68 @@ function runGL(db_obj     :: Database,
         push!(res_obj.conv, conv);
     end
     return nothing
+end
+
+function runLeaveOut(db_obj     :: Database, 
+                     param      :: Parameters, 
+                     ts_obj     :: TSVectorData,
+                     gl_obj     :: GLData,
+                     res_obj    :: ResultData)
+    
+    M = size(gl_obj.T[1], 1);
+    n_splits = size(gl_obj.T, 1);
+    
+    for sp in 1:n_splits
+        # Copy the all subjects bootstrapp and whitening matrices
+        all_T = deepcopy(gl_obj.T[sp]);
+        all_S = deepcopy(gl_obj.S[sp]);
+        all_wh = deepcopy(gl_obj.wh[sp]);
+        U_fast = Matrix{Float64}[];
+        B_fast = Matrix{Float64}[];
+        for m in 1:M
+            # Assign leaveout subject
+            loo_T = deepcopy(all_T[m]);
+            loo_S = deepcopy(all_S[m]);
+            loo_wh = deepcopy(all_wh[m]);
+
+            # Exclude leaveout subject from rest
+            deleteat!(all_T, m);
+            isempty(all_S) ? nothing : deleteat!(all_S, m);
+            deleteat!(all_wh, m);
+
+            # Run GALIA on the rest of the group
+            U_init = joalInitializer(all_T; type = param.initialize_U);
+
+            𝐔, iter, conv, _ = joal(deepcopy(all_T), init = U_init,
+                                    threaded = false, verbose = param.verbose,
+                                    maxiter = 2500, tol = 1e-8);
+            
+            # Fast alignment of leaveout subject
+            loo_U = fastAlignment(deepcopy(all_T), deepcopy(𝐔), loo_T);
+
+            # normalize leaveout U matrix
+            loo_U_ = normU([loo_U]; type = param.normalize_U, 𝐓 = [loo_T]);
+
+            # Push leaveout U matrix into this splits U_fast vector
+            push!(U_fast, loo_U_[1]);
+
+            # Estimate B matrix of the leaveout subject
+            loo_B = estimateB(loo_U_, [loo_wh]; type = param.whitening, white_dim = param.white_dim,
+                              reverse_selection = false, 𝐒 = Any[loo_S]);
+            
+            # Push leaveout B matrix into this splits B_fast vector
+            push!(B_fast, loo_B[1]);
+
+            # Put back leavout subjetc's bootstrapp and whitening matrices
+            insert!(all_T, m, loo_T);
+            isempty(all_S) ? nothing : insert!(all_S, m, loo_S);
+            insert!(all_wh, m, loo_wh);
+        end
+        # Once all subjects of the given split are one by one completed push them
+        # into B_fast and U_fast vectors of the gl_obj
+        push!(gl_obj.U_fast, U_fast);
+        push!(gl_obj.B_fast, B_fast);
+    end    
 end
 
 function trainGL(db_obj     :: Database, 
@@ -262,6 +326,27 @@ function trainSW(db_obj     :: Database,
     return nothing
 end
 
+function trainFA(db_obj     :: Database, 
+                 param      :: Parameters, 
+                 ts_obj     :: TSVectorData,
+                 gl_obj     :: GLData,
+                 res_obj    :: ResultData)
+
+    M = size(gl_obj.T[1], 1);
+    n_splits = size(gl_obj.T, 1);
+    accuracy = Matrix{Float64}(undef, n_splits, M);
+    for sp in 1:n_splits
+        for m in 1:M
+            accuracy[sp,m] = faTraining(ts_obj.train_vecs[sp], ts_obj.test_vecs[sp], ts_obj.train_labels, 
+                                        ts_obj.test_labels, m; classifier = param.classifier,
+                                        verbose = param.verbose);
+        end
+    end
+
+    res_obj.fa_res = vec(mean(accuracy, dims=1))
+    return nothing
+end
+
 function saveResults(db_obj     :: Database, 
                      param      :: Parameters, 
                      ts_obj     :: TSVectorData,
@@ -283,6 +368,9 @@ function plotAcc(obj_list)
     available_res = Dict("SW" => obj_list[5].sw_res,
                          "GL" => obj_list[5].gl_res,
                          "FA" => obj_list[5].fa_res);
+    
+    isempty(available_res["SW"]) ? nothing : ksort = sortperm(vec(available_res["SW"]), rev=true);
+
     for r in available_res
         isempty(ksort) ? ksort = sortperm(vec(r[2]), rev=true) : nothing;
         isempty(r[2]) ? nothing : plot!(p, vec(r[2])[ksort], label=r[1]);

@@ -1,9 +1,6 @@
 
-
-cd("G:\\Mon Drive\\PhD\\Codes\\groupLearning")
-
 using 	LinearAlgebra, CovarianceEstimation,
-PosDefManifold, PosDefManifoldML,
+PosDefManifold, PosDefManifoldML, Plots,
 Diagonalizations, NPZ, YAML, HDF5, EzXML,
 BlockDiagonals, DelimitedFiles, TimerOutputs, Base.Threads
 
@@ -14,27 +11,42 @@ using 	EEGio, System, FileSystem, EEGpreprocessing, EEGprocessing, ERPs
 include(".\\src\\pipelineTools.jl");
 
 filepath = "G:\\Mon Drive\\PhD\\Codes\\julia_codes\\group-learning\\Group-Learning-BCI\\ERP Analysis\\DataBases\\P300";
-dbName = "bi2014a";
+dbName = "bi2015a";
 
-PCA_dim = 8;
+PCA_dim = 16;
 random_state = 1;
-n_of_subject = 5;
+n_of_subject = 3;
 selection_rule = :none;
 threshold = 0.66;
 turn = :local;
 random_state = 1;
 bandpass = (1,16);
 artefact_rej = true;
-n_splits = 4;
-split_ratio = 40;
+n_splits = 5;
+split_ratio = 50;
 paradigm = :ERP;
+verbose = true;
 
 obj_list = initiateObjects(dbName, filepath;
-                           n_of_subject=n_of_subject, PCA_dim=PCA_dim, verbose=true);
+                           n_of_subject=n_of_subject, PCA_dim=PCA_dim, verbose=true,
+                           split_ratio=split_ratio, n_splits=n_splits);
 
 pipeline = [createTSVectors, trainSW, prepareGL, runGL, trainGL];
-
 runPipe!(pipeline, obj_list)
 
+pipeline2 = [runLeaveOut, trainFA];
+runPipe!(pipeline2, obj_list)
+
 plotAcc(obj_list)
+
+
+
+pipe2 = [prepareGL, runGL, trainGL];
+runPipe!(pipe2, obj_list)
+
+pipe3 = [createTSVectors, trainSW, prepareGL, runLeaveOut];
+runPipe!(pipe3, obj_list)
+
+pipe4 =[trainFA];
+runPipe!(pipe4, obj_list)
 

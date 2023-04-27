@@ -65,7 +65,7 @@ function whitenData(bootstraps             :: Vector{Matrix{Float64}};
             𝐓[m] = 𝐒[m].U[1:white_dim,1:white_dim] * diagm(
                 𝐒[m].S[1:white_dim]) * 𝐒[m].Vt[1:white_dim,:]
         end
-        
+
     elseif type == :smart
         temp_T = Vector{Matrix{Any}}(undef,M)
         𝐂 = Vector{Vector{Matrix{Any}}}(undef,M)
@@ -141,6 +141,26 @@ function sortU!(𝐔       :: Vector{Matrix{Float64}},
     # Sort 𝐔 matrices 
     𝐔 = Diagonalizations._flipAndPermute!(𝐔, deepcopy(𝐓), M, 1, :d; dims=2);
     return nothing
+end
+
+function normVecs!(train_vecs :: Vector{Vector{Matrix{Float64}}},
+                   test_vecs  :: Vector{Vector{Matrix{Float64}}})
+    for sp in 1:size(train_vecs,1)
+        for m in 1:size(train_vecs[1],1)
+            train_vecs[sp][m] ./= mean(norm.(eachcol(train_vecs[sp][m])));
+            test_vecs[sp][m] ./= mean(norm.(eachcol(test_vecs[sp][m])));
+        end
+    end
+end
+
+function zeroMeanVecs!(train_vecs :: Vector{Vector{Matrix{Float64}}},
+                       test_vecs  :: Vector{Vector{Matrix{Float64}}})
+    for sp in 1:size(train_vecs,1)
+        for m in 1:size(train_vecs[1],1)
+            train_vecs[sp][m] ./= mean(norm.(eachcol(train_vecs)));
+            test_vecs[sp][m] ./= mean(norm.(eachcol(test_vecs)));
+        end
+    end
 end
 
 # reverse_selection is ineffective for the moment.
