@@ -3,10 +3,10 @@
 # MIT License 
 # version: 10 Sept 2022
 # Copyright (c) - 2023
-# Fatih Altindis and Marco Congedo
-# Abdullah Gul University, Kayseri
-# GIPSA-lab, CNRS, University Grenoble Alpes
-
+# Fatih Altindis⁺ꜝ and Marco Congedo ꜝ
+# ⁺ Abdullah Gul University, Kayseri
+# ꜝ GIPSA-lab, CNRS, University Grenoble Alpes
+#
 # This is structure object to be used in reading raw EEG signals,
 # creating train/test splits for reminder steps of the pipeline
 Base.@kwdef mutable struct Database
@@ -72,6 +72,7 @@ end
 Base.@kwdef mutable struct GLData
     B                       :: Vector{Vector{Matrix{Float64}}} = []
     B_fast                  :: Vector{Vector{Matrix{Float64}}} = []
+    B_rest                  :: Vector{Any} = []
     U                       :: Vector{Vector{Matrix{Float64}}} = []
     U_fast                  :: Vector{Vector{Matrix{Float64}}} = []
     T                       :: Vector{Vector{Matrix{Float64}}} = []

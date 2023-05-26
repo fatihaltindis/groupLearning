@@ -2,9 +2,9 @@
 #
 # MIT License 
 # Copyright (c) - 2023
-# Fatih Altindis and Marco Congedo
-# Abdullah Gul University, Kayseri
-# GIPSA-lab, CNRS, University Grenoble Alpes
+# Fatih Altindis⁺ꜝ and Marco Congedo ꜝ
+# ⁺ Abdullah Gul University, Kayseri
+# ꜝ GIPSA-lab, CNRS, University Grenoble Alpes
 # 
 # DESCRIPTION
 # This unit implements required utilities related to caching the filenames,

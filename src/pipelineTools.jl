@@ -3,9 +3,9 @@
 # MIT License 
 # version: 10 Sept 2022
 # Copyright (c) - 2023
-# Fatih Altindis and Marco Congedo
-# Abdullah Gul University, Kayseri
-# GIPSA-lab, CNRS, University Grenoble Alpes
+# Fatih Altindis⁺ꜝ and Marco Congedo ꜝ
+# ⁺ Abdullah Gul University, Kayseri
+# ꜝ GIPSA-lab, CNRS, University Grenoble Alpes
 
 include("pipelineObjects.jl")
 include("databaseUtilityTools.jl")
@@ -234,6 +234,7 @@ function runLeaveOut(db_obj     :: Database,
         all_wh = deepcopy(gl_obj.wh[sp]);
         U_fast = Matrix{Float64}[];
         B_fast = Matrix{Float64}[];
+        B_rest = [];
         for m in 1:M
             # Assign leaveout subject
             loo_T = deepcopy(all_T[m]);
@@ -253,30 +254,38 @@ function runLeaveOut(db_obj     :: Database,
                                     maxiter = 2500, tol = 1e-8);
             
             # Fast alignment of leaveout subject
-            loo_U = fastAlignment(deepcopy(all_T), deepcopy(𝐔), loo_T);
+            loo_U = fastAlignment(deepcopy(all_T), deepcopy(𝐔), loo_T; threaded = false);
 
-            # normalize leaveout U matrix
-            loo_U_ = normU([loo_U]; type = param.normalize_U, 𝐓 = [loo_T]);
-
-            # Push leaveout U matrix into this splits U_fast vector
-            push!(U_fast, loo_U_[1]);
-
-            # Estimate B matrix of the leaveout subject
-            loo_B = estimateB(loo_U_, [loo_wh]; type = param.whitening, white_dim = param.white_dim,
-                              reverse_selection = false, 𝐒 = Any[loo_S]);
-            
-            # Push leaveout B matrix into this splits B_fast vector
-            push!(B_fast, loo_B[1]);
-
-            # Put back leavout subjetc's bootstrapp and whitening matrices
+            # Recover originial bootstrapp and whitening matrices
             insert!(all_T, m, loo_T);
             isempty(all_S) ? nothing : insert!(all_S, m, loo_S);
             insert!(all_wh, m, loo_wh);
+
+            # normalize leaveout U matrix
+            insert!(𝐔, m, loo_U);
+            𝐔_ = normU(deepcopy(𝐔); type = param.normalize_U, 𝐓 = deepcopy(all_T));
+
+            # Sort 𝐔 matrices 
+            param.sort_U ? sortU!(𝐔_, all_T) : nothing;
+
+            # Push leaveout U matrix into this splits U_fast vector
+            push!(U_fast, 𝐔_[m]);
+
+            # Estimate B matrix of the leaveout subject
+            loo_B = estimateB(𝐔_, all_wh; type = param.whitening, white_dim = param.white_dim,
+                              reverse_selection = false, 𝐒 = all_S);
+            
+            # Push leaveout B matrix into this splits B_fast vector
+            push!(B_fast, loo_B[m]);
+            deleteat!(loo_B, m);
+            println(size(loo_B[1]))
+            push!(B_rest, loo_B);
         end
         # Once all subjects of the given split are one by one completed push them
         # into B_fast and U_fast vectors of the gl_obj
         push!(gl_obj.U_fast, U_fast);
         push!(gl_obj.B_fast, B_fast);
+        push!(gl_obj.B_rest, B_rest);
     end    
 end
 
@@ -337,7 +346,12 @@ function trainFA(db_obj     :: Database,
     accuracy = Matrix{Float64}(undef, n_splits, M);
     for sp in 1:n_splits
         for m in 1:M
-            accuracy[sp,m] = faTraining(ts_obj.train_vecs[sp], ts_obj.test_vecs[sp], ts_obj.train_labels, 
+            tr_vecs = alignFeatures(ts_obj.train_vecs[sp][1:end .!=m], gl_obj.B_rest[sp][m]; 
+                                    sub_dim = param.sub_dim[1]);
+            te_vecs = alignFeatures([ts_obj.test_vecs[sp][m]], [gl_obj.B_fast[sp][m]];
+                                    sub_dim = param.sub_dim[1]);
+
+            accuracy[sp,m] = faTraining(tr_vecs, te_vecs, ts_obj.train_labels[1:end .!=m], 
                                         ts_obj.test_labels, m; classifier = param.classifier,
                                         verbose = param.verbose);
         end

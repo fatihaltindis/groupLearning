@@ -3,9 +3,9 @@
 # MIT License 
 # version: 10 Sept 2022
 # Copyright (c) - 2023
-# Fatih Altindis and Marco Congedo
-# Abdullah Gul University, Kayseri
-# GIPSA-lab, CNRS, University Grenoble Alpes
+# Fatih Altindis⁺ꜝ and Marco Congedo ꜝ
+# ⁺ Abdullah Gul University, Kayseri
+# ꜝ GIPSA-lab, CNRS, University Grenoble Alpes
 using ScikitLearn
 @sk_import svm: LinearSVC
 
@@ -117,15 +117,10 @@ function faTraining(train_split           :: Vector{Matrix{Float64}},
             predict(model, Matrix(test_split[1]'), :l; verbose = verbose))
 
     elseif classifier == :LinearSVC
-        # train_l = deepcopy(train_labels);
-        # deleteat!(train_l, test_sub_idx);
-        # train_s = deepcopy(train_split);
-        # deleteat!(train_s, test_sub_idx);
-
         clf = LinearSVC(tol=1e-6, class_weight = "balanced", max_iter=5000, verbose = verbose);
-        ScikitLearn.fit!(clf, Matrix(hcat(train_s...)'), vcat(train_l...));
+        ScikitLearn.fit!(clf, Matrix(hcat(train_split...)'), vcat(train_labels...));
         accuracy = PosDefManifoldML.predictAcc(test_labels[test_sub_idx], 
-                   clf.predict(Matrix(test_split[test_sub_idx]')))
+                   clf.predict(Matrix(test_split[1]')))
     else
         throw(ErrorException("LinearSVC or ENLR classifier must be chosen!!!"))
     end

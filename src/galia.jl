@@ -3,9 +3,9 @@
 # MIT License 
 # version: 10 Sept 2022
 # Copyright (c) - 2023
-# Fatih Altindis and Marco Congedo
-# Abdullah Gul University, Kayseri
-# GIPSA-lab, CNRS, University Grenoble Alpes
+# Fatih Altindis⁺ꜝ and Marco Congedo ꜝ
+# ⁺ Abdullah Gul University, Kayseri
+# ꜝ GIPSA-lab, CNRS, University Grenoble Alpes
 
 # This function implements a special joint blind source separation algorithm
 # particularly suiting joint alignmment of multiple-dataset feature vectors.

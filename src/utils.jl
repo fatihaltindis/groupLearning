@@ -2,9 +2,9 @@
 #
 # MIT License 
 # Copyright (c) - 2023
-# Fatih Altindis and Marco Congedo
-# Abdullah Gul University, Kayseri
-# GIPSA-lab, CNRS, University Grenoble Alpes
+# Fatih Altindis⁺ꜝ and Marco Congedo ꜝ
+# ⁺ Abdullah Gul University, Kayseri
+# ꜝ GIPSA-lab, CNRS, University Grenoble Alpes
 
 
 
@@ -128,7 +128,7 @@ function normU(𝐔        :: Vector{Matrix{Float64}};
             𝐔_[m] = deepcopy(temp_U)
         end
     # No normalization
-    else type == :none
+    else 
         nothing
     end
     return 𝐔_
@@ -230,6 +230,20 @@ function alignFeatures(train_split          :: Vector{Matrix{Float64}},
     exclude_from_train ? deleteat!(aligned_train,test_sub_idx) : nothing;
 
     return aligned_train, aligned_test
+end
+
+function alignFeatures(data_split           :: Vector{Matrix{Float64}},
+                       𝐁                    :: Vector{Matrix{Float64}};
+                       sub_dim              :: Union{Int,Nothing} = nothing)
+
+    isnothing(sub_dim) ? sub_dim = size(𝐁[1],2) : nothing;
+
+    aligned_data = Vector{Matrix{Float64}}(undef,length(𝐁))
+    
+    aligned_data = [𝐁[d][:,1:sub_dim]' * Z 
+        for (d,Z) ∈ enumerate(data_split)];
+    
+    return aligned_data
 end
 
 function measureNonDiagonality(𝐔 :: AbstractArray,

@@ -2,9 +2,9 @@
 #
 # MIT License 
 # Copyright (c) - 2023
-# Fatih Altindis and Marco Congedo
-# Abdullah Gul University, Kayseri
-# GIPSA-lab, CNRS, University Grenoble Alpes
+# Fatih Altindis⁺ꜝ and Marco Congedo ꜝ
+# ⁺ Abdullah Gul University, Kayseri
+# ꜝ GIPSA-lab, CNRS, University Grenoble Alpes
 
 # This function handles split structure of the data 
 # for using tsMap function from PosDefManifold module.
@@ -33,8 +33,8 @@ function tangentVectors(train_covs         :: Vector{Vector{Hermitian}},
     if !dt
         for i in eachindex(train_covs)
             if paradigm == :ERP
-                push!(train_ts_vecs, tsMap(metric, train_covs[i]; w=w, transpose=transpose, vecRange=vecRange)[1])
-                push!(test_ts_vecs, tsMap(metric, test_covs[i]; w=w, transpose=transpose, vecRange=vecRange)[1])
+                push!(train_ts_vecs, tsMap(metric, train_covs[i]; w=w, transpose=transpose, vecRange=vecRange, ⏩=false)[1])
+                push!(test_ts_vecs, tsMap(metric, test_covs[i]; w=w, transpose=transpose, vecRange=vecRange, ⏩=false)[1])
             elseif paradigm == :MI
                 push!(train_ts_vecs, tsMap(metric, train_covs[i]; w=w, transpose=transpose, ⏩=false)[1])
                 push!(test_ts_vecs, tsMap(metric, test_covs[i]; w=w, transpose=transpose, ⏩=false)[1])

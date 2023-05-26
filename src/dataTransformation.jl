@@ -2,9 +2,9 @@
 #
 # MIT License 
 # Copyright (c) - 2023
-# Fatih Altindis and Marco Congedo
-# Abdullah Gul University, Kayseri
-# GIPSA-lab, CNRS, University Grenoble Alpes
+# Fatih Altindis⁺ꜝ and Marco Congedo ꜝ
+# ⁺ Abdullah Gul University, Kayseri
+# ꜝ GIPSA-lab, CNRS, University Grenoble Alpes
 
 # SPLIT DATA INTO TRAIN AND TEST SPLITS
 # This function takes marker data from NY format data
