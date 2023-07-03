@@ -1,10 +1,10 @@
 # groupLearning.jl
 
-groupLearning is a [Julia](https://julialang.org/) package for performing __many-to-many__ and __many-to-one__ transfer learning on feature sets of multiple domains. 
+groupLearning.jl is a [Julia](https://julialang.org/) package for performing __many-to-many__ and __many-to-one__ transfer learning on feature sets of multiple domains. 
 
 ## Description
 
-This repository implements **G**roup **Ali**gnment **A**lgorithm (**GALIA**) method [1] and all the required functions to perform many-to-many and many-to-one domain adaptation methods proposed in [1].
+This repository implements the **G**roup **Ali**gnment **A**lgorithm (**GALIA**) method [1]. All necessary code and some examples data are provided in order to test and replicate study [1].
 
 ## Getting Started
 
@@ -27,13 +27,13 @@ This repository implements **G**roup **Ali**gnment **A**lgorithm (**GALIA**) met
 
 * As an example, recordings of 8 subjects (three session from each) are provided under the folder *exampleData/bi2015a*.
 
-* Custom databases can be tested as long as they are in **NY file** format. Please locate custom databases as subfolders under *data* folder. 
+* Other databases can be tested as long as they are in the **NY file** format. Please locate custom databases as subfolders under *data* folder. For other formats you will have to replace the relevant EEG reading functions with your own.
 
-* Please make sure current working directory is set to filepath of the repository.
+* Please make sure the current working directory is set to the filepath of the repository.
 
 ### Running the Group Learning
 
-* Open **test_pipeline.jl** file.
+* Open the **test_pipeline.jl** file.
 
 * Create required objects for pipelines
 ```julia
@@ -64,12 +64,14 @@ plotAcc(obj_list)
 
 [Marco Congedo](https://sites.google.com/site/marcocongedo), is a Research Director of CNRS (Centre National de la Recherche Scientifique), working at UGA (University of Grenoble Alpes). 
 
+The research on **GALIA** has has been carried out during a visit of Fatih in Grenoble.
+
 ## License
 
 This project is licensed under the BSD-3-Clause License
 
 ## References
-[1] Altindis F., Banerjee A., Phlypo R., Yilmaz B., Congedo M. (2023) Transfer Learning for Brain-Computer Interfaces by Joint Alignment of Feature Vectors, rest will be added after the acceptance.
+[1] Altindis F., Banerjee A., Phlypo R., Yilmaz B., Congedo M. (2023) Transfer Learning for Brain-Computer Interfaces by Joint Alignment of Feature Vectors, submitted.
 
 [2] [Congedo M., Bleuzé A., Mattout J. (2022) Group Learning by Joint Alignment in the Riemannian Tangent Space GRETSI conference, 6-9 September 2022, Nancy, France.](https://hal.science/hal-03778481v1/document)
 
