@@ -17,10 +17,12 @@ include(".\\src\\galia.jl")
 include(".\\src\\learning.jl")
 include(".\\src\\dbInfo.jl")
 
-filepath = "J:\\My Drive\\PhD\\Codes\\julia_codes\\group-learning\\Group-Learning-BCI\\ERP Analysis\\DataBases\\P300";
+# Main folder of the database
+filepath = joinpath(@__DIR__, "data");
+# Folder name of the selected database
+dbName = "bi2015a";
 
-# Selected Databases
-dbName = "bi2012";	        # give a list of datasets with their folder name
+#
 n_of_subject = 10;		    # number of subjects to be used (set to 0 for using all subjects)
 selection_rule = :none;     # selection rule (set :rand for random selection)
 n_splits = 5;			    # number of splits for train/test
@@ -174,38 +176,3 @@ ksort = sortperm(sw_acc, rev=true);
 plot(sw_acc[ksort], labels = "SW")
 plot!(gl_acc[ksort], labels = "GL")
 ylims!((0.4,1))
-
-
-
-####
-
-for i in eachindex(𝐖)
-    writedlm(joinpath(@__DIR__, "boldu$i.txt"), 𝐔_[i]);
-end
-
-for m = 1:M, i = m+1:M
-    println("this is m=$m")
-    println("this is i=$i")
-end
-
-
-
-C=Diagonalizations._crossCov(T, M, 1;
-covEst=SCM, dims=2, meanX=0, trace1=false)
-n = 16
-𝑫=𝔻Vector₂(undef, M)
-𝐔 = 𝐔_
-for i=1:M 
-    𝑫[i]=𝔻Vector([𝛍(𝔻([𝐔[i][:, η]'*C[l, i, j]*𝐔[j][:, η] for η=1:n]) for l=1:1) for j=1:M]) 
-end
-
-
-for i=1:m 𝑫[i]=𝔻Vector([𝛍(𝔻([𝐔[i][:, η]'*𝒞[l, i, j]*𝐔[j][:, η] for η=1:n]) for l=1:k) for j=1:m]) end
-for i=1:m 𝑫[i]=𝔻Vector([𝛍(𝔻([𝐔[i][:, η]'*𝒞[l, i, j]*𝐔[j][:, η] for η=1:n]) for l=1:k) for j=1:m]) end
-
-
-for i=1:M-1, j=i+1:M, η=1:16
-    println("this I is $i")
-    println("this J is $j")
-    println("this N is $η")
-end

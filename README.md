@@ -8,8 +8,6 @@ This repository implements **G**roup **Ali**gnment **A**lgorithm (**GALIA**) met
 
 ## Getting Started
 
-This is a package.
-
 ### Dependencies
 
 * Make sure the code is running on [Julia release v1.9.0.](https://julialang.org/downloads/oldreleases/)
@@ -17,23 +15,47 @@ This is a package.
 
 ### Installing
 
-* How/where to download your program
-* Any modifications needed to be made to files/folders
-
-### Executing program
-
-* How to run the program
-* Step-by-step bullets
-```
-code blocks for commands
+* Download the repository.
+* Run Julia REPL in the top folder of the repository.
+* Instantiate the environment by running
+```julia
+]instantiate
 ```
 
-## Help
+### Notes
+* Machine learning models are imported from the scikit-learn Python library. Therefore, Python must be installed on the PC. We suggest to follow the steps on [ScikitLearn.jl](https://github.com/cstjean/ScikitLearn.jl) page.
 
-Please make sure current working directory is set to filepath of the repository.
+* As an example, recordings of 8 subjects (three session from each) are provided under the folder *exampleData/bi2015a*.
+
+* Custom databases can be tested as long as they are in **NY file** format. Please locate custom databases as subfolders under *data* folder. 
+
+* Please make sure current working directory is set to filepath of the repository.
+
+### Running the Group Learning
+
+* Open **test_pipeline.jl** file.
+
+* Create required objects for pipelines
+```julia
+# Subject specific train/test pipeline
+obj_list = initiateObjects(dbName, filepath);
+```
+
+* Create a list comprised of pipeline steps. 
+```julia
+# Group learning pipeline
+pipeline2 = [createTSVectors, prepareGL, runGL, trainGL];
 
 ```
-command to run if program contains helper info
+* Run the pipeline
+```julia
+runPipe!(pipeline2, obj_list)
+```
+
+* Plot and compare pipelines
+```julia
+# PLot and compare pipelines
+plotAcc(obj_list)
 ```
 
 ## Authors
@@ -44,18 +66,13 @@ command to run if program contains helper info
 
 ## License
 
-This project is licensed under the [NAME HERE] License - see the LICENSE.md file for details
-
-## Acknowledgments
-
-
+This project is licensed under the BSD-3-Clause License
 
 ## References
-[1] Group learning paper
+[1] Altindis F., Banerjee A., Phlypo R., Yilmaz B., Congedo M. (2023) Transfer Learning for Brain-Computer Interfaces by Joint Alignment of Feature Vectors, rest will be added after the acceptance.
 
-[2]
+[2] [Congedo M., Bleuzé A., Mattout J. (2022) Group Learning by Joint Alignment in the Riemannian Tangent Space GRETSI conference, 6-9 September 2022, Nancy, France.](https://hal.science/hal-03778481v1/document)
 
-[3]
+[3] [Congedo M., Phlypo R., Chatel-Goldman J. Orthogonal and non-orthogonal joint blind source separation in the least-squares sense. (2012) The 20th European Signal Processing Conference (EUSIPCO), 27-31 August 2012, Bucharest, Romania.](https://ieeexplore.ieee.org/document/6334247)
 
-[4]
  

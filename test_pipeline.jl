@@ -16,14 +16,14 @@ EEGpreprocessing, EEGprocessing, ERPs
 include(".\\src\\pipelineTools.jl");
 
 # Main folder of the database
-filepath = joinpath(@__DIR__, "exampleData");
+filepath = joinpath(@__DIR__, "data");
 # Folder name of the selected database
 dbName = "bi2015a";
 
 # Parameters
 PCA_dim = nothing;
 random_state = 1;
-n_of_subject = 10;
+n_of_subject = 4;
 selection_rule = :none;
 threshold = 0.66;
 turn = :local;
@@ -42,21 +42,36 @@ obj_list = initiateObjects(dbName, filepath;
                            split_ratio=split_ratio, n_splits=n_splits,
                            whitening=whitening, initialize_U=initialize_U);
 
+# Run multiple pipelines
 pipeline = [createTSVectors, trainSW, prepareGL, runGL, trainGL];
 runPipe!(pipeline, obj_list)
 
-pipeline2 = [runLeaveOut, trainFA];
+# Subject specific train/test pipeline
+pipeline1 = [createTSVectors, trainSW];
+runPipe!(pipeline1, obj_list)
+
+# Group learning pipeline
+pipeline2 = [createTSVectors, prepareGL, runGL, trainGL];
 runPipe!(pipeline2, obj_list)
 
+# Fast alignment pipeline
+pipeline3 = [runLeaveOut, trainFA];
+runPipe!(pipeline3, obj_list)
+
+# PLot and compare pipelines
 plotAcc(obj_list)
 
-pipe2 = [prepareGL, runGL, trainGL];
-runPipe!(pipe2, obj_list)
-
-pipe3 = [createTSVectors, trainSW, prepareGL, runLeaveOut];
-runPipe!(pipe3, obj_list)
-
-pipe4 =[trainFA];
-runPipe!(pipe4, obj_list)
-
-
+# Pipeline parts
+# createTSVectors >>> reads NY files, extracts TS vectors
+#                     and splits into train/test
+# trainSW         >>> runs subject specific train/test classification 
+#                     on extracted/splitted data
+# prepareGL       >>> pre-steps of the Group Learning. It is a must step
+#                     for running Group Learning 
+# runGL           >>> runs GALIA
+# 
+# trainGL         >>> train/test step of the group learning pipeline
+#                     
+# runLeaveOut     >>> runs leave-one-out stategy for performing fast alignment
+#
+# trainFA         >>> train/test step of the fast alignment pipeline
