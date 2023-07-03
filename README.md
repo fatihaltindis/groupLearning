@@ -4,7 +4,7 @@ groupLearning.jl is a [Julia](https://julialang.org/) package for performing __m
 
 ## Description
 
-This repository implements the **G**roup **Ali**gnment **A**lgorithm (**GALIA**) method [1]. All necessary code and some examples data are provided in order to test and replicate study [1].
+This repository implements the **G**roup **Ali**gnment **A**lgorithm (**GALIA**) method [1]. All necessary code and some example data are provided in order to test and replicate study [1].
 
 ## Getting Started
 
