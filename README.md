@@ -68,7 +68,7 @@ The research on **GALIA** has has been carried out during a visit of Fatih in Gr
 
 ## License
 
-This project is licensed under the BSD-3-Clause License
+This project is licensed under the MIT License
 
 ## References
 [1] Altindis F., Banerjee A., Phlypo R., Yilmaz B., Congedo M. (2023) Transfer Learning for Brain-Computer Interfaces by Joint Alignment of Feature Vectors, submitted.
