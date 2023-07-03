@@ -1,18 +1,26 @@
+using Pkg
+Pkg.activate("groupL")
 
-using 	LinearAlgebra, CovarianceEstimation,
+# Add packages
+using LinearAlgebra, CovarianceEstimation,
 PosDefManifold, PosDefManifoldML, Plots,
 Diagonalizations, NPZ, YAML, HDF5, EzXML,
-BlockDiagonals, DelimitedFiles, TimerOutputs, Base.Threads
+BlockDiagonals, DelimitedFiles, TimerOutputs, 
+Base.Threads
 
-# Include required custom packages 
+# Add custom packages 
 push!(LOAD_PATH, joinpath(@__DIR__, "Modules"))
-using 	EEGio, System, FileSystem, EEGpreprocessing, EEGprocessing, ERPs
+using EEGio, System, FileSystem, 
+EEGpreprocessing, EEGprocessing, ERPs
 
 include(".\\src\\pipelineTools.jl");
 
-filepath = "G:\\Mon Drive\\PhD\\Codes\\julia_codes\\group-learning\\Group-Learning-BCI\\ERP Analysis\\DataBases\\P300";
+# Main folder of the database
+filepath = joinpath(@__DIR__, "exampleData");
+# Folder name of the selected database
 dbName = "bi2015a";
 
+# Parameters
 PCA_dim = nothing;
 random_state = 1;
 n_of_subject = 10;

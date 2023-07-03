@@ -1,17 +1,19 @@
 # groupLearning.jl
 
-groupLearning is a Julia package for performing __many-to-many__ or __many-to-one__ transfer learning on feature sets of multiple domains. 
+groupLearning is a [Julia](https://julialang.org/) package for performing __many-to-many__ and __many-to-one__ transfer learning on feature sets of multiple domains. 
 
 ## Description
 
-An in-depth paragraph about your project and overview of use.
+This repository implements **G**roup **Ali**gnment **A**lgorithm (**GALIA**) method [1] and all the required functions to perform many-to-many and many-to-one domain adaptation methods proposed in [1].
 
 ## Getting Started
 
+This is a package.
+
 ### Dependencies
 
-* Describe any prerequisites, libraries, OS version, etc., needed before installing program.
-* ex. Windows 10
+* Make sure the code is running on [Julia release v1.9.0.](https://julialang.org/downloads/oldreleases/)
+* All the required packages (with compatible versions) are provided in *Project.toml* file.
 
 ### Installing
 
@@ -28,25 +30,17 @@ code blocks for commands
 
 ## Help
 
-Any advise for common problems or issues.
+Please make sure current working directory is set to filepath of the repository.
+
 ```
 command to run if program contains helper info
 ```
 
 ## Authors
 
-Contributors names and contact info
+[Fatih Altindis]() is a Research Assistant at Abdullah Gul Univeristy, Kayseri. ***contact:*** fthaltindis *at* gmail *dot* com
 
-ex. Dominique Pizzie  
-ex. [@DomPizzie](https://twitter.com/dompizzie)
-
-## Version History
-
-* 0.2
-    * Various bug fixes and optimizations
-    * See [commit change]() or See [release history]()
-* 0.1
-    * Initial Release
+[Marco Congedo](https://sites.google.com/site/marcocongedo), is a Research Director of CNRS (Centre National de la Recherche Scientifique), working at UGA (University of Grenoble Alpes). 
 
 ## License
 
@@ -54,9 +48,14 @@ This project is licensed under the [NAME HERE] License - see the LICENSE.md file
 
 ## Acknowledgments
 
-Inspiration, code snippets, etc.
-* [awesome-readme](https://github.com/matiassingers/awesome-readme)
-* [PurpleBooth](https://gist.github.com/PurpleBooth/109311bb0361f32d87a2)
-* [dbader](https://github.com/dbader/readme-template)
-* [zenorocha](https://gist.github.com/zenorocha/4526327)
-* [fvcproductions](https://gist.github.com/fvcproductions/1bfc2d4aecb01a834b46)
+
+
+## References
+[1] Group learning paper
+
+[2]
+
+[3]
+
+[4]
+ 

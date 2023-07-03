@@ -17,10 +17,10 @@ include(".\\src\\galia.jl")
 include(".\\src\\learning.jl")
 include(".\\src\\dbInfo.jl")
 
-filepath = "G:\\Mon Drive\\PhD\\Codes\\julia_codes\\group-learning\\Group-Learning-BCI\\ERP Analysis\\DataBases\\P300";
+filepath = "J:\\My Drive\\PhD\\Codes\\julia_codes\\group-learning\\Group-Learning-BCI\\ERP Analysis\\DataBases\\P300";
 
 # Selected Databases
-dbName = "bi2014b";	        # give a list of datasets with their folder name
+dbName = "bi2012";	        # give a list of datasets with their folder name
 n_of_subject = 10;		    # number of subjects to be used (set to 0 for using all subjects)
 selection_rule = :none;     # selection rule (set :rand for random selection)
 n_splits = 5;			    # number of splits for train/test
