@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 acquisition:
   filter: Unknown
   ground: Fz
@@ -129,3 +130,136 @@ stim:
 #                 stimulation samples, defining the beginning of trials
 #       - windowlength: (int) size of the window, given in number of sample, 
 #                       defining the duration of trials
+=======
+acquisition:
+  filter: Unknown
+  ground: Fz
+  hardware: g.GAMMAcap (g.tec, Schiedlberg, Austria)
+  reference: Hardware common average reference
+  samplingrate: 512
+  sensors:
+  - FP1
+  - FP2
+  - F7
+  - F3
+  - F4
+  - F8
+  - FC5
+  - FC1
+  - FC2
+  - FC6
+  - T7
+  - C3
+  - Cz
+  - C4
+  - T8
+  - CP5
+  - CP1
+  - CP2
+  - CP6
+  - P7
+  - P3
+  - Pz
+  - P4
+  - P8
+  - PO7
+  - O1
+  - Oz
+  - O2
+  - PO8
+  - PO9
+  - PO10
+  sensortype: EEG wet Silver/Silver Chloride electrodes
+  software: OpenVibe
+documentation:
+  description: ' https://hal.archives-ouvertes.fr/hal-02172347'
+  doi: 10.5281/zenodo.3266930
+  investigators: "Louis Korczowski, Martine Cederhout, Anton Andreev,Gr\xE9goire Cattan,Pedro\
+    \ Luiz Coelho Rodrigues, Violette Gautheret, Marco Congedo"
+  place: GIPSA-lab, Grenoble, France
+  repository: https://zenodo.org/record/3266930
+formatversion: 0.0.1
+id:
+  condition: Online
+  database: bi2015a(only five subjects)
+  paradigm: P300
+  run: 1
+  session: 2
+  subject: 8
+  timestamp: 2015
+stim:
+  labels:
+    NonTarget: 1
+    Target: 2
+  nclasses: 2
+  offset: 0
+  windowlength: 512
+
+##############################################################################
+#                     GIPSA-lab standard for EEG time series (version 0.0.1) #
+#                                Authors : Pedro Rodrigues and Marco Congedo #
+#                                                        November 15th, 2019 #
+##############################################################################
+
+# This format has been conceived for easily sharing EEG data in Python and 
+# Julia. Each file is understood as a separate recording. Data consist of two
+# files. They have the same name and extensions `npz` and `yml` (this file).
+
+# The `npz` file typically holds the EEG data matrix, a real matrix of 
+# dimension num. of samples x num. of electrodes and a vector of integer with
+# the tags for stimulations, with as many entries as number of samples. The 
+# tags are 0 (zero) for no stimulation and then employs the natural numbers 
+# (1, 2,...) for different stimulation classes.
+
+# The `yml` file holds all meta-data info of the recording in `yml` format. 
+# It holds two fields and four dictionaries:
+
+# FIELDS:
+#
+# - paradigm: (string) the experimental paradigm, e.g., P300, MI, ... 
+#             for Brain Computer Interfaces experiments
+#
+# - formatversion: (version) version of this metadata specification
+
+# DICTIONARIES:
+#
+# - acquisition: (dictionary)
+#
+#   - filter: (string) filter setting of the EEG acquisition machine, 
+#             specifying the type and specification. Ex: "Band-pass digital 
+#             filter (0.01-70Hz)"
+#   - ground: (string) location of the sensor used as ground. Ex: "Fpz"
+#   - reference: (string) location of the sensor used as reference for the 
+#                recording. Ex: "A1"
+#   - hardware: (string) the commercial name and producer of the the EEG 
+#               acquisition machine. Ex: "actiCHamp, Brain Products GmbH 
+#               (Germany), DC amplifiers"
+#   - software: (string) software used for acquiring and storing the data. 
+#               Ex: OpenViBE, INRIA (France)
+#   - samplingrate:(int) sampling rate. Ex: 128
+#   - sensors: (array-like of strings) location of the sensors, excluding 
+#              ground and reference.
+#   - sensortype: (string) type, material and product name of electrodes. 
+#                 Ex: Ag/AgCl, Braincap, Brain Products GmbH (Germany)
+#
+# - documentation: (dictionary)
+#
+#   - description: (string) link to a file or website describing the dataset
+#   - doi: (string) digital object identifier of the dataset's documentation
+#   - repository:  (string) link to the online repository where the data can 
+#                  be downloaded
+#
+# - id: (dictionary)
+#   
+#   - database: (string) name of the database
+#
+# - stim: (dictionary)
+#
+#   - labels: (dictionary) dictionary with the labels and code of the 
+#             stimulations
+#       - nclasses: (int) number of classes for the stimulations
+#       - offset: (int) offset, given in number of samples, with respect to 
+#                 stimulation samples, defining the beginning of trials
+#       - windowlength: (int) size of the window, given in number of sample, 
+#                       defining the duration of trials
+>>>>>>> a931e975ead1b95f7d8c5479ed2c95124af5247e

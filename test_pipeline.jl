@@ -50,8 +50,6 @@ runPipe!(pipeline2, obj_list)
 
 plotAcc(obj_list)
 
-
-
 pipe2 = [prepareGL, runGL, trainGL];
 runPipe!(pipe2, obj_list)
 
