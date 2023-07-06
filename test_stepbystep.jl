@@ -23,7 +23,7 @@ filepath = joinpath(@__DIR__, "data");
 dbName = "bi2015a";
 
 #
-n_of_subject = 10;		    # number of subjects to be used (set to 0 for using all subjects)
+n_of_subject = 0;		    # number of subjects to be used (set to 0 for using all subjects)
 selection_rule = :none;     # selection rule (set :rand for random selection)
 n_splits = 5;			    # number of splits for train/test
 split_ratio = 50;           # Train/Test ratio of the trials
@@ -44,7 +44,6 @@ dt = false;
 verbose = true;
 paradigm = dbListParadigm[dbName];
 clf = :LinearSVC;
-take_sq = true;
 
 all_clabels = []; 	        # Class labels of all subjects
 train_vecs, test_vecs = Vector{Matrix{Float64}}[], Vector{Matrix{Float64}}[];
@@ -83,23 +82,6 @@ for (n,temp_file) ∈ enumerate(selected_files)
                             det_normalization = det_normalization, estimator = :lw);
     train_tsvec, test_tsvec = tangentVectors(train_covs, test_covs, 1:o.ne, paradigm; 
                             transpose=false)
-
-    # train_tsvec ./= mean(norm.(eachcol(train_tsvec)))
-    # test_tsvec ./= mean(norm.(eachcol(test_tsvec)))
-
-    if take_sq
-        # train_tsvec2 = map(x -> exp.(x) ./ sum(exp.(x)), train_tsvec)
-        # test_tsvec2 = map(x -> exp.(x) ./ sum(exp.(x)), test_tsvec)
-
-        # train_tsvec2 = map(x -> tanh.(x), train_tsvec)
-        # test_tsvec2 = map(x -> tanh.(x), test_tsvec)
-
-        train_tsvec2 = map(x -> x.^2, train_tsvec)
-        test_tsvec2 = map(x -> x.^2, test_tsvec)
-
-        train_tsvec = map((x,y) -> vcat(x,y), train_tsvec, train_tsvec2)
-        test_tsvec = map((x,y) -> vcat(x,y), test_tsvec, test_tsvec2)
-    end
 
     # append data
     push!(train_vecs, train_tsvec)
@@ -163,16 +145,17 @@ for sp = 1:n_splits
 
     # Sort 𝐔 matrices before sub dimension selection
     sort_U ? sortU!(𝐔_, T) : nothing;
-    
+
     # Computation of B matrices
     𝐁[sp] = estimateB(𝐔_, wh; 𝐒 = S, type = whitening, white_dim = white_dim,
                       reverse_selection = false);
 end
+
 gl_acc, gl_std = glTraining(train_vecs, test_vecs, train_labels, test_labels, 𝐁;
                             sub_dim = sub_dim, classifier = clf, verbose = verbose);
-
 
 ksort = sortperm(sw_acc, rev=true);
 plot(sw_acc[ksort], labels = "SW")
 plot!(gl_acc[ksort], labels = "GL")
 ylims!((0.4,1))
+
