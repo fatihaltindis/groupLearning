@@ -13,7 +13,7 @@ push!(LOAD_PATH, joinpath(@__DIR__, "Modules"))
 using EEGio, System, FileSystem, 
 EEGpreprocessing, EEGprocessing, ERPs
 
-include(".\\src\\pipelineTools.jl");
+include(joinpath(@__DIR__, "src", "pipelineTools.jl"));
 
 # Main folder of the database
 filepath = joinpath(@__DIR__, "data");
