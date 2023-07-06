@@ -7,15 +7,15 @@ BlockDiagonals, DelimitedFiles, TimerOutputs, Base.Threads
 push!(LOAD_PATH, joinpath(@__DIR__, "Modules"))
 using 	EEGio, System, FileSystem, EEGpreprocessing, EEGprocessing, ERPs
 
-include(".\\src\\databaseUtilityTools.jl")
-include(".\\src\\dataTransformation.jl")
-include(".\\src\\covarianceEstimation.jl")
-include(".\\src\\erpTools.jl")
-include(".\\src\\tangentSpaceVectors.jl")
-include(".\\src\\utils.jl")
-include(".\\src\\galia.jl")
-include(".\\src\\learning.jl")
-include(".\\src\\dbInfo.jl")
+include(joinpath(@__DIR__, "src", "databaseUtilityTools.jl"));
+include(joinpath(@__DIR__, "src", "dataTransformation.jl"));
+include(joinpath(@__DIR__, "src", "covarianceEstimation.jl"));
+include(joinpath(@__DIR__, "src", "erpTools.jl"));
+include(joinpath(@__DIR__, "src", "tangentSpaceVectors.jl"));
+include(joinpath(@__DIR__, "src", "utils.jl"));
+include(joinpath(@__DIR__, "src", "galia.jl"));
+include(joinpath(@__DIR__, "src", "learning.jl"));
+include(joinpath(@__DIR__, "src", "dbInfo.jl"));
 
 # Main folder of the database
 filepath = joinpath(@__DIR__, "data");
