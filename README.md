@@ -71,7 +71,7 @@ The research on **GALIA** has has been carried out during a visit of Fatih in Gr
 This project is licensed under the MIT License
 
 ## References
-[1] Altindis F., Banerjee A., Phlypo R., Yilmaz B., Congedo M. (2023) Transfer Learning for Brain-Computer Interfaces by Joint Alignment of Feature Vectors, submitted.
+[1] [Altindis F., Banerjee A., Phlypo R., Yilmaz B., Congedo M. (2023) Transfer Learning for Brain-Computer Interfaces by Joint Alignment of Feature Vectors,IEEE Journal of Biomedical and Health Informatics.](https://doi.org/10.1109/JBHI.2023.3299837)
 
 [2] [Congedo M., Bleuzé A., Mattout J. (2022) Group Learning by Joint Alignment in the Riemannian Tangent Space GRETSI conference, 6-9 September 2022, Nancy, France.](https://hal.science/hal-03778481v1/document)
 
